@@ -94,7 +94,7 @@ changeOverlay.on("change", async (change) => {
         let result = await mongoClient.db("test").collection('staticoverlays').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('staticarts').find({}).toArray();
         console.log(result2)
-        io.emit("changeOverlay", {result, result2});
+        io.emit("Overlays_changeOverlay", {result, result2});
 });
 
 Streamer = mongoClient.db("test").collection('streamers');
@@ -104,15 +104,16 @@ changeStreamer.on("change", async (change) => {
         let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
         let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
-        io.emit("changeStreamer", {result, result2, result3});
+        io.emit("Overlays_changeStreamer", {result, result2, result3});
 });
 
 StaticArt = mongoClient.db("test").collection('staticarts');
 changeStaticArt = StaticArt.watch();
 changeStaticArt.on("change", async (change) => {
         console.log("enviado");
-        let result = await mongoClient.db("test").collection('staticarts').find({}).toArray();
-        io.emit("changeStaticArt", result);
+        let result = await mongoClient.db("test").collection('staticoverlays').find({}).toArray();
+        let result2 = await mongoClient.db("test").collection('staticarts').find({}).toArray();
+        io.emit("Overlays_changeStaticArt", {result, result2});
 });
 
 Group = mongoClient.db("test").collection('groups');
@@ -120,8 +121,16 @@ changeGroup = Group.watch();
 changeGroup.on("change", async (change) => {
         console.log("enviado");
         let result = await mongoClient.db("test").collection('groups').find({}).toArray();
-        io.emit("changeGroup", result);
+        io.emit("Overlays_changeGroup", result);
 });
+
+Campaign = mongoClient.db("test").collection('campaigns');
+changeCampaign = Campaign.watch();
+changeCampaign.on("change",async (change) => {
+        console.log("enviado");
+        let result = await mongoClient.db("test").collection('campaigns').find({}).toArray();
+        io.emit("Campaigns_changeCampaign", result);
+})
 
 app.listen(3001, async () => {
     try {
