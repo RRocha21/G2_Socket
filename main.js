@@ -107,6 +107,26 @@ changeStreamer.on("change", async (change) => {
         io.emit("Overlays_changeStreamer", {result, result2, result3});
 });
 
+Sponsors = mongoClient.db("test").collection('sponsors');
+changeSponsor = Sponsors.watch();
+changeSponsor.on("change", async (change) => {
+        console.log("enviado");
+        let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
+        let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
+        let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
+        io.emit("Overlays_changeSponsor", {result, result2, result3});
+});
+
+Group = mongoClient.db("test").collection('groups');
+changeGroup = Group.watch();
+changeGroup.on("change", async (change) => {
+        console.log("enviado");
+        let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
+        let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
+        let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
+        io.emit("Overlays_changeGroup", {result, result2, result3});
+});
+
 StaticArt = mongoClient.db("test").collection('staticarts');
 changeStaticArt = StaticArt.watch();
 changeStaticArt.on("change", async (change) => {
