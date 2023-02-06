@@ -152,6 +152,25 @@ changeCampaign.on("change",async (change) => {
         io.emit("Campaigns_changeCampaign", result);
 })
 
+Trigger = mongoClient.db("test").collection('triggers');
+changeTrigger = Trigger.watch();
+changeTrigger.on("change",async (change) => {
+        console.log("enviado");
+        let n = 0;
+        let result = await mongoClient.db("test").collection('triggers').find({}).toArray();
+        let flag = false;
+        for (let i = 0; i < result.length; i++) {
+            if (result[i].triggerStatus) {
+                flag = true;
+                n = i;
+                break;
+            }
+        }
+        if (flag) {
+            io.emit("Triggers_changeTrigger", result[n]);
+        }
+})
+
 app.listen(3001, async () => {
     try {
         await mongoClient.connect();
