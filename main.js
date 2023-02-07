@@ -82,7 +82,6 @@ app.get("/sponsors", async (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
     socket.emit('message', 'a user connected');
 });
 
@@ -93,14 +92,12 @@ changeOverlay = StaticOverlay.watch();
 changeOverlay.on("change", async (change) => {
         let result = await mongoClient.db("test").collection('staticoverlays').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('staticarts').find({}).toArray();
-        console.log(result2)
         io.emit("Overlays_changeOverlay", {result, result2});
 });
 
 Streamer = mongoClient.db("test").collection('streamers');
 changeStreamer = Streamer.watch();
 changeStreamer.on("change", async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
         let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
@@ -110,7 +107,6 @@ changeStreamer.on("change", async (change) => {
 Sponsors = mongoClient.db("test").collection('sponsors');
 changeSponsor = Sponsors.watch();
 changeSponsor.on("change", async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
         let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
@@ -120,7 +116,6 @@ changeSponsor.on("change", async (change) => {
 Group = mongoClient.db("test").collection('groups');
 changeGroup = Group.watch();
 changeGroup.on("change", async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('streamers').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('groups').find({}).toArray();
         let result3 = await mongoClient.db("test").collection('sponsors').find({}).toArray();
@@ -130,7 +125,6 @@ changeGroup.on("change", async (change) => {
 StaticArt = mongoClient.db("test").collection('staticarts');
 changeStaticArt = StaticArt.watch();
 changeStaticArt.on("change", async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('staticoverlays').find({}).toArray();
         let result2 = await mongoClient.db("test").collection('staticarts').find({}).toArray();
         io.emit("Overlays_changeStaticArt", {result, result2});
@@ -139,7 +133,6 @@ changeStaticArt.on("change", async (change) => {
 Group = mongoClient.db("test").collection('groups');
 changeGroup = Group.watch();
 changeGroup.on("change", async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('groups').find({}).toArray();
         io.emit("Overlays_changeGroup", result);
 });
@@ -147,7 +140,6 @@ changeGroup.on("change", async (change) => {
 Campaign = mongoClient.db("test").collection('campaigns');
 changeCampaign = Campaign.watch();
 changeCampaign.on("change",async (change) => {
-        console.log("enviado");
         let result = await mongoClient.db("test").collection('campaigns').find({}).toArray();
         io.emit("Campaigns_changeCampaign", result);
 })
@@ -155,7 +147,6 @@ changeCampaign.on("change",async (change) => {
 Trigger = mongoClient.db("test").collection('triggers');
 changeTrigger = Trigger.watch();
 changeTrigger.on("change",async (change) => {
-        console.log("enviado");
         let n = 0;
         let result = await mongoClient.db("test").collection('triggers').find({}).toArray();
         let flag = false;
